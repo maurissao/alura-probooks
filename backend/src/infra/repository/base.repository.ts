@@ -7,6 +7,7 @@ import "reflect-metadata";
 export class Repository<T extends IEntity> {
   #store: Store;
   #entityColumns: any[];
+
   constructor(private entity: any) {
     this.#store = Store.Instance;
     this.#entityColumns = Reflect.getOwnMetadata('EntityColumn', this.entity);
@@ -69,7 +70,14 @@ export class Repository<T extends IEntity> {
   }
 
   getAll(): T[] {
-    const data: T[] = [{} as T];
+    const data: any[] = this.#store.getData((new this.entity).constructor.name);
     return data;
+  }
+
+  findeOne(id: any): T {
+    const data: T[] = this.#store.getData((new this.entity).constructor.name);
+    const retorno = data.filter((e) => e['id'] === id);
+    console.log(retorno[0]);
+    return retorno[0];
   }
 }

@@ -12,7 +12,7 @@ export class CategoriaService {
   }
 
   findAll() {
-    return `This action returns all categoria`;
+    return this.categoriaRepository.getAll();
   }
 
   findOne(id: number) {

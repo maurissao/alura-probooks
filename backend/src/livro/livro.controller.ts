@@ -28,7 +28,7 @@ export class LivroController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.livroService.findOne(+id);
+    return this.livroService.findOne(id);
   }
 
   @Patch(':id')

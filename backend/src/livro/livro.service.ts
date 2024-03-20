@@ -12,11 +12,11 @@ export class LivroService {
   }
 
   findAll() {
-    return `This action returns all livro`;
+    return this.livroRepository.getAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} livro`;
+  findOne(id: string) {
+    return this.livroRepository.findeOne(id);
   }
 
   update(id: number, updateLivroDto: UpdateLivroDto) {
