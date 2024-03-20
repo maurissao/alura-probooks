@@ -77,7 +77,6 @@ export class Repository<T extends IEntity> {
   findeOne(id: any): T {
     const data: T[] = this.#store.getData((new this.entity).constructor.name);
     const retorno = data.filter((e) => e['id'] === id);
-    console.log(retorno[0]);
     return retorno[0];
   }
 }
