@@ -1,13 +1,13 @@
-import { IEntity } from '../../entities/types';
+import { Entity } from '../../entities/types';
 import { Store } from "../database/store";
 import { ValidationError, validate } from "class-validator";
 import { randomUUID } from 'node:crypto';
 import "reflect-metadata";
 
-export class Repository<T extends IEntity> {
+export class Repository<T extends Entity> {
   #store: Store;
   #entityColumns: any[];
-  protected BeforInsert: ((entity: any) => void) | null = null;
+  protected BeforInsert: ((entity: T) => void) | null = null;
 
   constructor(private entity: any) {
     this.#store = Store.Instance;

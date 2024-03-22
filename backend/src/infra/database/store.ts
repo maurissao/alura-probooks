@@ -1,6 +1,6 @@
 import { LocalStorage } from 'node-localstorage';
 import { Repository } from '../repository/base.repository';
-import { IEntity } from '../../entities/types';
+import { Entity } from '../../entities/types';
 
 export class Store {
   #storageName: string = 'pro-books';
@@ -27,9 +27,9 @@ export class Store {
     this.#storage.setItem(key, JSON.stringify(state));
   }
 
-  public getRepository(entity: IEntity): Repository<IEntity>
+  public getRepository(entity: Entity): Repository<Entity>
   {
-    return new Repository<IEntity>(entity);
+    return new Repository<Entity>(entity);
   }
 
 }

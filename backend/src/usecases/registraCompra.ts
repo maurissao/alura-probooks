@@ -3,12 +3,16 @@ import { Carrinho } from '../entities/carrinho/carrinho.entity';
 import { ItemCarrinho } from '../entities/carrinho/itemCarrinho.entity';
 import { Compra } from '../entities/compra/compra.entity';
 import { ItemCompra } from '../entities/compra/itemCompra.entity';
-import { FormaPagamento } from "../entities/types";
+import { Entity, FormaPagamento } from "../entities/types";
 import { CompraRepository } from "../infra/repository/compra/compra.repository";
 
 export async function registraCompra() {
     const carrinho = new Carrinho();
     const compra = new Compra();
+    compra.onChange = (target: Compra) => {
+        target.valorPparcelas = target.total | 0 / target.parcelas;
+    }
+    compra.id = '1';
     const carrinhoRepository = new Repository<Carrinho>(Carrinho);
     const compraRepository = new CompraRepository();
     carrinho.idUsuario = '559567ab-0c12-4048-a7e8-aa3d5551e806';
@@ -27,7 +31,7 @@ export async function registraCompra() {
         compra.ItemCompra.push(itemCompra);
     }
     compra.formaPagamento = FormaPagamento.CREDITO;
-    compra.parcelas = 18;
+    compra.parcelas = 12;
     compra.idUsuario = carrinho.idUsuario;
     compra.total = carrinho.total;
     compraRepository.insert(compra);

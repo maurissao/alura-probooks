@@ -89,7 +89,6 @@ export class ValidateParcelas implements ValidatorConstraintInterface {
     }
     return true;
   }
-
   defaultMessage(validationArguments?: ValidationArguments): string {
     return this._message || 'Parcela inválida';
   }
