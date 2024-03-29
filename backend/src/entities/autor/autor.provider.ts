@@ -1,10 +1,10 @@
 import { Autor } from './autor.entity';
-import { Store } from '../../infra/database/store';
+import { DataSource } from 'typeorm';
 
 export const AutorProvider = {
   provide: 'AutorRepository',
-  useFactory: (store) => {
-    return store.getRepository(Autor);
+  useFactory: (ds: DataSource) => {
+    return ds.getRepository(Autor);
   },
-  inject: ['StoreProvider']
+  inject: ['AppDataSource']
 };
