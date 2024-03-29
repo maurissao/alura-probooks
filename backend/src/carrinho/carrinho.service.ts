@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateCarrinhoDto } from './dto/create-carrinho.dto';
 import { UpdateCarrinhoDto } from './dto/update-carrinho.dto';
-import { Repository } from '../../infra/repository/base.repository';
-import { Carrinho } from '../../entities/carrinho/carrinho.entity';
+import { Repository } from '../infra/repository/base.repository';
+import { Carrinho } from '../entities/carrinho/carrinho.entity';
 
 @Injectable()
 export class CarrinhoService {

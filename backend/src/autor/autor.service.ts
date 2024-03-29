@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateAutorDto } from './dto/create-autor.dto';
 import { UpdateAutorDto } from './dto/update-autor.dto';
-import { Repository } from '../../infra/repository/base.repository';
-import { Autor } from '../../entities/autor/autor.entity';
+import { Repository } from '../infra/repository/base.repository';
+import { Autor } from '../entities/autor/autor.entity';
 
 @Injectable()
 export class AutorService {

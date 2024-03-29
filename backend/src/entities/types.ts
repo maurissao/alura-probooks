@@ -1,8 +1,8 @@
-type EntityEvent = any;
+type EntityEvent = ((entity: IEntity) => void);
 
 export interface IEntity {
     [key: string]: any;
-    onChange: EntityEvent;
+    onChange: EntityEvent | null;
 }
 
 export class Entity implements IEntity {

@@ -5,7 +5,7 @@ export class CompraRepository extends Repository<Compra> {
     constructor() {
         super(Compra);
         this.BeforInsert = (entity: Compra) => {
-            entity.valorPparcelas = entity.total / entity.parcelas;
+            entity.valorPparcelas = entity.total | 0 / entity.parcelas | 1;
         }
     }
 }

@@ -86,9 +86,10 @@ export class Repository<T extends Entity> {
       erros.push(...validationErrors);
     }
     erros.map(v => errorMessage += Object.values(v.constraints)[0] + '\n');
-    if (errorMessage != '')
-        throw new Error('Inclusão de dados não passou pela validação:\n' + errorMessage)
-    else
+    if (errorMessage != '') {
+        throw new Error('Inclusão de dados não passou pela validação:\n' + errorMessage);
+        return false;
+    } else
       return true;
   }
 

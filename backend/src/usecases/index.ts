@@ -36,6 +36,6 @@ import { registraCompra } from "./registraCompra";
         }
 
     } catch (e) {
-        console.log('deu erro', e.toString());  
+        console.log(e.toString());  
     }
 })();

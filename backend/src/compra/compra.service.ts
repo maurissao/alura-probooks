@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
-import { Compra } from '../../entities/compra/compra.entity';
-import { Repository } from '../../infra/repository/base.repository';
+import { Compra } from '../entities/compra/compra.entity';
+import { Repository } from '../infra/repository/base.repository';
 
 @Injectable()
 export class CompraService {

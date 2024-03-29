@@ -10,7 +10,7 @@ export async function registraCompra() {
     const carrinho = new Carrinho();
     const compra = new Compra();
     compra.onChange = (target: Compra) => {
-        target.valorPparcelas = target.total | 0 / target.parcelas;
+        target.valorPparcelas = target.total | 0 / target.parcelas | 1;
     }
     compra.id = '1';
     const carrinhoRepository = new Repository<Carrinho>(Carrinho);
@@ -31,8 +31,8 @@ export async function registraCompra() {
         compra.ItemCompra.push(itemCompra);
     }
     compra.formaPagamento = FormaPagamento.CREDITO;
-    compra.parcelas = 12;
+    compra.parcelas = 18;
     compra.idUsuario = carrinho.idUsuario;
     compra.total = carrinho.total;
-    compraRepository.insert(compra);
+    await compraRepository.insert(compra);
 }

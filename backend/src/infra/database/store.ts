@@ -1,12 +1,12 @@
 import { LocalStorage } from 'node-localstorage';
 import { Repository } from '../repository/base.repository';
-import { Entity } from '../../entities/types';
+import { Entity, IEntity } from '../../entities/types';
 
 export class Store {
   #storageName: string = 'pro-books';
   #storage: LocalStorage;
   private static instance: Store;
-  constructor() {
+  private constructor() {
     this.#storage = new LocalStorage(this.#storageName);
   }
 
@@ -27,7 +27,7 @@ export class Store {
     this.#storage.setItem(key, JSON.stringify(state));
   }
 
-  public getRepository(entity: Entity): Repository<Entity>
+  public getRepository<Entity extends IEntity>(entity: Entity): Repository<Entity>
   {
     return new Repository<Entity>(entity);
   }

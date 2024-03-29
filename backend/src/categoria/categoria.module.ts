@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CategoriaService } from './categoria.service';
 import { CategoriaController } from './categoria.controller';
-import { StoreModule } from 'src/infra/database/store.module';
-import { CategoriaProvider } from 'src/entities/categoria/categoria.provider';
+import { StoreModule } from '../infra/database/store.module';
+import { CategoriaProvider } from '../entities/categoria/categoria.provider';
 
 @Module({
   imports: [StoreModule],

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AutorModule } from './resources/autor/autor.module';
-import { CategoriaModule } from './resources/categoria/categoria.module';
-import { LivroModule } from './resources/livro/livro.module';
-import { UsuarioModule } from './resources/usuario/usuario.module';
-import { CarrinhoModule } from './resources/carrinho/carrinho.module';
-import { CompraModule } from './resources/compra/compra.module';
+import { AutorModule } from './autor/autor.module';
+import { CategoriaModule } from './categoria/categoria.module';
+import { LivroModule } from './livro/livro.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { CarrinhoModule } from './carrinho/carrinho.module';
+import { CompraModule } from './compra/compra.module';
 
 @Module({
   imports: [
