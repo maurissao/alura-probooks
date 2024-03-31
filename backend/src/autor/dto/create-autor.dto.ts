@@ -1,20 +1,15 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength, ValidationArguments } from 'class-validator';
+import { IsNotEmptyMessage, IsValidMessage, MinLengthMessage } from '../../entities/decorators/entity.decorators';
 
 export class CreateAutorDto {
   @IsString()
-  @IsNotEmpty({message: (args: ValidationArguments) => {
-    return `${args.property} não pode estar vazio`
-  }})
+  @IsNotEmpty(IsNotEmptyMessage)
   nome: string;
 
-  @IsEmail({}, {message: (args: ValidationArguments) => {
-    return `${args.property} inválido`
-  }})
+  @IsEmail({}, IsValidMessage)
   email: string;
 
   @IsString()
-  @MinLength(10, {message: (args: ValidationArguments) => {
-    return `${args.property} precisa ter no mínimo ${args.constraints[0]} caracteres`
-  }})
+  @MinLength(10, MinLengthMessage)
   biografia: string;
 }

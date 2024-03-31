@@ -1,6 +1,30 @@
 import 'reflect-metadata';
-import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
+import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, ValidationOptions } from 'class-validator';
 import { IEntity, Entity } from '../types';
+
+export const IsNotEmptyMessage: ValidationOptions = {
+  message: (args: ValidationArguments) => {
+    return `${args.property} não pode estar vazio`
+  }
+}
+
+export const MinLengthMessage: ValidationOptions = {
+  message: (args: ValidationArguments) => {
+    return `${args.property} precisa ter no mínimo ${args.constraints[0]} caracteres`
+  }
+}
+
+export const IsValidMessage: ValidationOptions = {
+  message: (args: ValidationArguments) => {
+    return `${args.property} inválido`
+  }
+}
+
+export const LengthMessage: ValidationOptions = {
+  message: (args: ValidationArguments) => {
+    return `${args.property} precisa ter no mínimo ${args.constraints[0]} caracteres`
+  }
+}
 
 export const Column = function(propertyType?: any|any[]) {
   return function (target: any, propertyKey: string | symbol) {

@@ -70,11 +70,9 @@ export class UniqueKeyValidatorConstraint implements ValidatorConstraintInterfac
 
     validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
         this.entity = Reflect.getMetadata('entityDTO', validationArguments.object.constructor);
-        this.metadataArgsStorage = getMetadataStorage(this.entity);
-        this.entityName = this.metadataArgsStorage.tables.find(t => t.target === this.entity).name;
         return new Promise<boolean>(async (resolve, reject) => {
             try {
-                const sql = `select * from ${this.entityName} where "${validationArguments.property}" = '${value}'`;
+                const sql = `select * from ${this.entity} where "${validationArguments.property}" = '${value}'`;
                 const data = await this.dataSource.query(sql);
                 const result = data.length <= 0; 
                 resolve(result);

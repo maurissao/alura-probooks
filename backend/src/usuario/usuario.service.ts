@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 export class UsuarioService {
   constructor (@Inject('UsuarioRepository') private usuarioRepository: Repository<Usuario>){}
   create(createUsuarioDto: CreateUsuarioDto) {
-    this.usuarioRepository.insert(createUsuarioDto);
+    return this.usuarioRepository.save(createUsuarioDto);
   }
 
   findAll() {

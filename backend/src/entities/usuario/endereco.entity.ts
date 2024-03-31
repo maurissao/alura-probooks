@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import { Usuario } from "./usuario.entity";
 import { UUID } from "crypto";
 
@@ -8,7 +8,7 @@ export class Endereco {
     @PrimaryColumn()
     usuarioId: string;
 
-    @OneToOne(() => Usuario, (usuario) => usuario.endereco)
+    @ManyToOne(() => Usuario, (usuario) => usuario.endereco)
     @JoinColumn()
     usuario: Usuario
 
