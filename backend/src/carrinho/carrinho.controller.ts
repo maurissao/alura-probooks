@@ -1,30 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import "reflect-metadata";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Req, Session } from '@nestjs/common';
 import { CarrinhoService } from './carrinho.service';
 import { CreateCarrinhoDto } from './dto/create-carrinho.dto';
 import { UpdateCarrinhoDto } from './dto/update-carrinho.dto';
-import { response } from 'express';
+import { Request, Response } from 'express';
+import { CreateItemCarrinhoDTO } from "./dto/create-item_carrinho.dto";
 
 @Controller('carrinho')
 export class CarrinhoController {
   constructor(private readonly carrinhoService: CarrinhoService) {}
 
   @Post()
-  create(@Body() createCarrinhoDto: CreateCarrinhoDto, @Res() response) {
-    return this.carrinhoService.create(createCarrinhoDto)
-      .then((value) => {
-        response.send(value);
-      })
-      .catch((reason) => {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-          reason: reason.toString(),
-          data: createCarrinhoDto
-        })
-      });
+  create(@Req() request: Request, @Body() createCarrinhoDto: CreateCarrinhoDto, @Res() response) {
+    request.session['carrinho'] = createCarrinhoDto;
+    const carrinho = request.session['carrinho'];
+    response.status(HttpStatus.ACCEPTED).send(carrinho);
   }
 
   @Get()
-  findAll() {
-    return this.carrinhoService.findAll();
+  findAll(@Req() request: Request, @Res() response: Response) {
+    const carrinho = request.session['carrinho'];
+    response.status(HttpStatus.OK).send(carrinho);
   }
 
   @Get(':id')
@@ -40,5 +36,21 @@ export class CarrinhoController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.carrinhoService.remove(+id);
+  }
+
+  @Delete('item/:id')
+  removeItem(@Req() request: Request, @Param('id') id: string) {
+    try {
+      const carrinho: CreateCarrinhoDto = request.session['carrinho']; 
+      const itens = carrinho.itemCarrinho.map(e => {
+       if(e.livroId !== id)
+        return {...e};
+      });
+      carrinho.itemCarrinho = itens;
+      request.session['carrinho'] = carrinho;
+      return carrinho;  
+    } catch (e) {
+      return e;
+    }
   }
 }

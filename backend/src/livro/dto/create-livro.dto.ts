@@ -4,7 +4,7 @@ import { EntityDTO, ForeignKeyValidator, UniqueKeyValidator } from '../../infra/
 import { Livro } from '../../entities/livro/livro.entity';
 import { LengthMessage, MinLengthMessage } from "../../entities/decorators/entity.decorators";
 
-@EntityDTO(Livro)
+@EntityDTO('livro')
 export class CreateLivroDto {
     @IsString()
     @MinLength(10, MinLengthMessage)

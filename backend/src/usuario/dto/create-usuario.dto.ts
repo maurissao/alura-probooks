@@ -3,7 +3,7 @@ import { EntityDTO, UniqueKeyValidator } from "../../infra/database/validation-s
 import { Endereco } from "../../entities/usuario/endereco.entity";
 import { IsArray, IsEmail, IsNotEmpty, Validate, ValidateNested } from "class-validator";
 import { IsNotEmptyMessage, IsValidMessage, ValidateCPF } from "../../entities/decorators/entity.decorators";
-import { EnderecoUsuarioDTO } from "./endereoco.dto";
+import { EnderecoUsuarioDTO } from "./create-endereco_usuario.dto";
 import { Type } from "class-transformer";
 
 @EntityDTO('usuario')
