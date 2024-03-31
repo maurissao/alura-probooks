@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CreateLivroDto } from './dto/create-livro.dto';
 import { UpdateLivroDto } from './dto/update-livro.dto';
-import { Repository } from '../infra/repository/base.repository';
 import { Livro } from '../entities/livro/livro.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LivroService {
@@ -12,11 +12,11 @@ export class LivroService {
   }
 
   findAll() {
-    return this.livroRepository.getAll();
+    return this.livroRepository.find();
   }
 
   findOne(id: string) {
-    return this.livroRepository.findeOne(id);
+    return this.livroRepository.findOneBy({id: id});
   }
 
   update(id: number, updateLivroDto: UpdateLivroDto) {

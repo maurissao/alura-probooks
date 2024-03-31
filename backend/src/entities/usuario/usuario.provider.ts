@@ -2,9 +2,9 @@ import { Usuario } from './usuario.entity';
 
 export const UsuarioProvider = {
   provide: 'UsuarioRepository',
-  useFactory: (store) => {
-    return store.getRepository(Usuario);
+  useFactory: (datasource) => {
+    return datasource.getRepository(Usuario);
   },
-  inject: ['StoreProvider']
+  inject: ['AppDataSource']
 };
 

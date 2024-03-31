@@ -3,8 +3,8 @@ import { Livro } from "./livro.entity";
 
 export const LivroProvider = {
     provide: 'LivroRepository',
-    useFactory: (store) => {
-        return store.getRepository(Livro);
+    useFactory: (datasource) => {
+        return datasource.getRepository(Livro);
     },
-    inject: ['StoreProvider']
+    inject: ['AppDataSource']
 }

@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { LivroService } from './livro.service';
 import { LivroController } from './livro.controller';
 import { LivroProvider } from '../entities/livro/livro.provider';
-import { StoreModule } from '../infra/database/store.module';
+import { DatabaseModule } from '../infra/database/database.module';
 
 @Module({
-  imports: [StoreModule],
+  imports: [DatabaseModule],
   controllers: [LivroController],
   providers: [LivroService, LivroProvider],
 })

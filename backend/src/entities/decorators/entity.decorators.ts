@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
-import { Store } from '../../infra/database/store';
 import { IEntity, Entity } from '../types';
 
 export const Column = function(propertyType?: any|any[]) {

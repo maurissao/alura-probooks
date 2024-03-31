@@ -1,5 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
+import { ConfigService } from '@nestjs/config';
+import { Injector } from '@nestjs/core/injector/injector';
+import { Inject, Injectable } from '@nestjs/common';
 
 const PgOptions: DataSourceOptions = {
     type: 'postgres',
@@ -9,7 +12,7 @@ const PgOptions: DataSourceOptions = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
-    migrations: ['dist/migrations/*{.ts,.js}'],
+    migrations: [__dirname + '/migrations/*{.ts,.js}'],
     migrationsRun: false,
     subscribers: [],
     logging: false,    

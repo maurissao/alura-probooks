@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { CompraService } from './compra.service';
 import { CompraController } from './compra.controller';
 import { CompraProvider } from '../entities/compra/compra.provider';
-import { StoreModule } from '../infra/database/store.module';
+import { DatabaseModule } from '../infra/database/database.module';
 
 @Module({
-  imports: [StoreModule],
+  imports: [DatabaseModule],
   controllers: [CompraController],
   providers: [CompraService, CompraProvider],
 })

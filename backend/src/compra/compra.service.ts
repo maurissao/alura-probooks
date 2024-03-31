@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
 import { Compra } from '../entities/compra/compra.entity';
-import { Repository } from '../infra/repository/base.repository';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CompraService {
@@ -14,7 +14,7 @@ export class CompraService {
   }
 
   findAll() {
-    return this.compraRepository.getAll();
+    return this.compraRepository.find();
   }
 
   findOne(id: number) {
