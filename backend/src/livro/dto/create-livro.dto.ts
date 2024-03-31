@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { IsNotEmpty, IsString, Length, MinLength, Validate, ValidationArguments } from 'class-validator';
 import { Autor } from '../../entities/autor/autor.entity';
-import { EntityDTO, ForeignKeyValidator } from 'src/infra/database/validation-services/foreign-key.validator';
+import { EntityDTO, OneToOneForeignKeyValidator } from 'src/infra/database/validation-services/foreign-key.validator';
 import { Livro } from '../../entities/livro/livro.entity';
 import { Categoria } from "src/entities/categoria/categoria.entity";
 
@@ -36,16 +36,8 @@ export class CreateLivroDto {
 
     dataPublicacao: string;
 
-    @Validate(ForeignKeyValidator, [
-        (c: Categoria) => c.id
-    ])
+    @OneToOneForeignKeyValidator({referencedEntity: 'Categoria', referencedColumn: 'id'})
     categoria: string;
 
     autor: Autor;
 }
-
-const x = (c: Categoria) => c.id;
-const c = new Categoria;
-c.id = 'xxxxxxxxxxx';
-const r = x(c);
-console.log(r);

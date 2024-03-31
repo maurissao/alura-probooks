@@ -4,15 +4,12 @@ import { registerDecorator, ValidationOptions, ValidationArguments, ValidatorCon
 import { DataSource, Repository } from 'typeorm';
 import { AppDataSource } from '../database.provider';
 import { getMetadataArgsStorage } from 'typeorm';
+import { MetadataArgsStorage } from "typeorm/metadata-args/MetadataArgsStorage";
 
-function getEntityName(object: any): string | undefined {
+function getMetadataStorage(object: any): MetadataArgsStorage | undefined {
     const metadataArgsStorage = getMetadataArgsStorage();
-    //console.log(object);
     const entityMetadataArgs = metadataArgsStorage.tables.find(entity => entity.target === object);
-    if (entityMetadataArgs) {
-        return entityMetadataArgs.name;
-    }
-    return undefined;
+    return metadataArgsStorage || undefined;
 }
 
 export const EntityDTO = function (entity: any) {
@@ -21,9 +18,8 @@ export const EntityDTO = function (entity: any) {
     };
 };
 
-
 @ValidatorConstraint()
-export class ForeignKeyValidator implements ValidatorConstraintInterface {
+export class OneToOneForeignKeyValidatorConstraint implements ValidatorConstraintInterface {
     private dataSource: DataSource;
 
     constructor() {
@@ -34,12 +30,18 @@ export class ForeignKeyValidator implements ValidatorConstraintInterface {
         return new Promise<boolean>(async (resolve, reject) => {
             try {
                 const entity = Reflect.getMetadata('entityDTO', validationArguments.object.constructor);
-                const data = await this.dataSource.query(`select * from ${getEntityName(entity)}`);
-                const isValid = data.length > 0; 
-                resolve(isValid);
-            } catch (error) {
-                // Handle errors
-                reject(error);
+                const metadataArgsStorage: MetadataArgsStorage = getMetadataStorage(entity);
+                // const entityName = metadataArgsStorage.tables.find(t => t.target === entity).name;
+                // const relationMetadata = metadataArgsStorage.relations.find(r => r.target === entity && r.propertyName === validationArguments.property);
+                // const columnMetadata = metadataArgsStorage.columns.filter(c => c.target === entity);
+                // const joinMetadata = metadataArgsStorage.joinColumns.find(j => j.target === entity);
+                const refOptions: ReferenceOptions = validationArguments.constraints[0] || undefined;
+                const sql = `select * from ${refOptions.referencedEntity} where ${refOptions.referencedColumn} = '${value}'`;
+                const data = await this.dataSource.query(sql);
+                const result = data.length > 0; 
+                resolve(result);
+            } catch (e) {
+                reject(e);
             }
         });
     }
@@ -48,3 +50,20 @@ export class ForeignKeyValidator implements ValidatorConstraintInterface {
     }
 }
 
+type ReferenceOptions = {
+    referencedEntity: any,
+    referencedColumn: string;
+}
+
+export function OneToOneForeignKeyValidator(reference?: ReferenceOptions) {
+    return function (object: object, propertyName: string) {
+        const validationOptions: ValidationOptions = {};
+        registerDecorator({
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            constraints: [reference],
+            validator: OneToOneForeignKeyValidatorConstraint,
+        });
+    };
+}
