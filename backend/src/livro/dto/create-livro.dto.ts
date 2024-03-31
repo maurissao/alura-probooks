@@ -1,9 +1,7 @@
 import "reflect-metadata";
 import { IsNotEmpty, IsString, Length, MinLength, Validate, ValidationArguments } from 'class-validator';
-import { Autor } from '../../entities/autor/autor.entity';
-import { EntityDTO, OneToOneForeignKeyValidator } from 'src/infra/database/validation-services/foreign-key.validator';
+import { EntityDTO, ForeignKeyValidator, UniqueKeyValidator } from '../../infra/database/validation-services/foreign-key.validator';
 import { Livro } from '../../entities/livro/livro.entity';
-import { Categoria } from "src/entities/categoria/categoria.entity";
 
 @EntityDTO(Livro)
 export class CreateLivroDto {
@@ -32,12 +30,14 @@ export class CreateLivroDto {
     @Length(9, 13, {message: (args: ValidationArguments) => {
         return `${args.property} precisa ter no mínimo ${args.constraints[0]} caracteres`
     }})
+    @UniqueKeyValidator()
     ISBN: string;
 
     dataPublicacao: string;
 
-    @OneToOneForeignKeyValidator({referencedEntity: 'Categoria', referencedColumn: 'id'})
+    @ForeignKeyValidator({referencedEntity: 'Categoria', referencedColumn: 'id'})
     categoria: string;
 
-    autor: Autor;
+    @ForeignKeyValidator({referencedEntity: 'Autor', referencedColumn: 'id'})
+    autor: string;
 }

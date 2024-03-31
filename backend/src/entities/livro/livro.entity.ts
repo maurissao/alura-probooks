@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Autor } from "../autor/autor.entity";
 import { Categoria } from "../categoria/categoria.entity";
 
@@ -22,17 +22,18 @@ export class Livro {
     @Column()
     paginas: number;
     
+    @Index({unique: true})
     @Column({length: 20})
     ISBN: string;
 
     @Column({name: 'data_publicacao', type: 'timestamp'})
     dataPublicacao: string;
 
-    @OneToOne(() => Categoria)
+    @ManyToOne(() => Categoria)
     @JoinColumn()
     categoria: string;
 
-    @OneToOne(() => Autor)
+    @ManyToOne(() => Autor)
     @JoinColumn()
-    autor: Autor;
+    autor: string;
 }
