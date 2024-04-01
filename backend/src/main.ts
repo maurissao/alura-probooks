@@ -3,10 +3,9 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as session from 'express-session';
 const RedisStore = require("connect-redis").default
-import {createClient} from "redis"
+import IORedis from 'ioredis';
 
- let redisClient = createClient()
- redisClient.connect().catch(console.error)
+const redisClient = new IORedis();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +17,7 @@ async function bootstrap() {
       saveUninitialized: false,
       store: new RedisStore({ client: redisClient, prefix: "pbapp" }),
       cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 1000 * 60 * 60 * 6,
         httpOnly: true,
         sameSite: 'lax',
       },

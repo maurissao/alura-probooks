@@ -1,32 +1,31 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Double, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationOptions } from "typeorm";
 import { Usuario } from "../usuario/usuario.entity";
-import { ItemCompra } from "./itemCompra.entity";
+import { ItemCompra } from "./item-compra.entity";
 
 @Entity('compra')
 export class Compra {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Usuario)
+  @ManyToOne(() => Usuario)
   @JoinColumn()
-  idUsuario: string;
+  usuario: Usuario;
 
-  @OneToMany(() => ItemCompra, (compra) => compra.id)
-  @JoinColumn()
-  itens: ItemCompra;
+  @OneToMany(() => ItemCompra, (item) => item.id, {cascade: true, eager: true})
+  itemCompra: ItemCompra[];
 
-  @Column()
+  @Column({name: 'forma_pagamento'})
   formaPagamento: string;
 
-  @Column()
+  @Column('int')
   parcelas: number = 1;
 
-  @Column()
-  valorPparcelas: number;
+  @Column('float', {name: 'valor_parcela'})
+  valorParcela: number;
 
-  @Column()
-  dataCompra: Date;
+  @CreateDateColumn({name: 'data_compra'})
+  dataCompra: string;
 
-  @Column()
+  @Column('float')
   total: number;
 }

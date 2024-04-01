@@ -3,14 +3,24 @@ import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
 import { Compra } from '../entities/compra/compra.entity';
 import { Repository } from 'typeorm';
+import { Request } from 'express';
+import { REQUEST } from '@nestjs/core';
 
 @Injectable()
 export class CompraService {
 
-  constructor(@Inject('CompraRepository') private compraRepository: Repository<Compra>){}
+  constructor(
+    @Inject(REQUEST) private request: Request,
+    @Inject('CompraRepository') private compraRepository: Repository<Compra>
+  ){}
 
-  create(createCompraDto: CreateCompraDto) {
-    return this.compraRepository.insert(createCompraDto);
+  async create(createCompraDto: CreateCompraDto) {
+    const carrinho = this.request.session['carrinho'];
+    if(carrinho) {
+      return this.compraRepository.insert(createCompraDto);
+    } else {
+      throw new Error('Carrinho vazio');
+    }
   }
 
   findAll() {

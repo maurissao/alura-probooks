@@ -3,6 +3,9 @@ import 'dotenv/config';
 import { ConfigService } from '@nestjs/config';
 import { Injector } from '@nestjs/core/injector/injector';
 import { Inject, Injectable } from '@nestjs/common';
+import { CustomNamingStrategy } from './CustomNamingStrategy';
+
+const customNamingStrategy = new CustomNamingStrategy();
 
 const PgOptions: DataSourceOptions = {
     type: 'postgres',
@@ -15,7 +18,8 @@ const PgOptions: DataSourceOptions = {
     migrations: [__dirname + '/migrations/*{.ts,.js}'],
     migrationsRun: false,
     subscribers: [],
-    logging: false,    
+    logging: false,
+    namingStrategy: customNamingStrategy
 }
 
 export const AppDataSource = new DataSource(PgOptions);

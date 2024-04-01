@@ -14,7 +14,7 @@ export class CarrinhoController {
   create(@Req() request: Request, @Body() createCarrinhoDto: CreateCarrinhoDto, @Res() response) {
     request.session['carrinho'] = createCarrinhoDto;
     const carrinho = request.session['carrinho'];
-    response.status(HttpStatus.ACCEPTED).send(carrinho);
+    response.status(HttpStatus.CREATED).send(carrinho);
   }
 
   @Get()
@@ -33,13 +33,14 @@ export class CarrinhoController {
     return this.carrinhoService.update(+id, updateCarrinhoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.carrinhoService.remove(+id);
+  @Delete()
+  remove(@Req() request: Request, @Res() response: Response) {
+    request.session['carrinho'] = undefined;
+    response.status(HttpStatus.OK).send();
   }
 
   @Delete('item/:id')
-  removeItem(@Req() request: Request, @Param('id') id: string) {
+  removeItem(@Req() request: Request, @Res() response: Response, @Param('id') id: string) {
     try {
       const carrinho: CreateCarrinhoDto = request.session['carrinho']; 
       const itens = carrinho.itemCarrinho.map(e => {
@@ -48,7 +49,7 @@ export class CarrinhoController {
       });
       carrinho.itemCarrinho = itens;
       request.session['carrinho'] = carrinho;
-      return carrinho;  
+      response.status(HttpStatus.CREATED).send(carrinho);
     } catch (e) {
       return e;
     }
