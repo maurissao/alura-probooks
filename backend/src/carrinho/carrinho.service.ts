@@ -3,17 +3,21 @@ import { CreateCarrinhoDto } from './dto/create-carrinho.dto';
 import { UpdateCarrinhoDto } from './dto/update-carrinho.dto';
 import { Carrinho } from '../entities/carrinho/carrinho.entity';
 import { Repository } from 'typeorm';
+import { v4 as uuid} from 'uuid';
 
 @Injectable()
 export class CarrinhoService {
-  constructor(@Inject('CarrinhoRepository') private carrinhoRepository: Repository<Carrinho>){}
 
   create(createCarrinhoDto: CreateCarrinhoDto) {
-    return this.carrinhoRepository.insert(createCarrinhoDto);
+    if (!createCarrinhoDto.id || createCarrinhoDto.id === '')
+      createCarrinhoDto.id = uuid();
+    createCarrinhoDto.total = createCarrinhoDto.itemCarrinho.reduce(
+      (p, c) => p + c.preco * c.quantidade, 0
+    );
   }
 
   findAll() {
-    return this.carrinhoRepository.find();
+    return `This action returns all carrinho`;
   }
 
   findOne(id: number) {

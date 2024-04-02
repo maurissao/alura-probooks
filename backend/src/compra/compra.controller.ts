@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Req } from '@nestjs/common';
 import { CompraService } from './compra.service';
 import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
+import { Request, Response } from 'express';
+import { CreateCarrinhoDto } from '../carrinho/dto/create-carrinho.dto';
 
 @Controller('compra')
 export class CompraController {
   constructor(private readonly compraService: CompraService) {}
 
   @Post()
-  create(@Body() createCompraDto: CreateCompraDto, @Res() response) {
-    return this.compraService.create(createCompraDto)
+  create(@Body() createCompraDto: CreateCompraDto, @Req() request: Request, @Res() response) {
+    const createCarrinhoDto: CreateCarrinhoDto = request.session['carrinho'];
+    return this.compraService.create(createCompraDto, createCarrinhoDto)
       .then((value) => {
         response.send(value);
       })
@@ -22,8 +25,10 @@ export class CompraController {
   }
 
   @Get()
-  findAll() {
-    return this.compraService.findAll();
+  findAll(@Res() response: Response) {
+    this.compraService.findAll()
+      .then((value) => response.send(value))
+      .catch((reason) => response.status(HttpStatus.INTERNAL_SERVER_ERROR).send(reason.toString()));
   }
 
   @Get(':id')

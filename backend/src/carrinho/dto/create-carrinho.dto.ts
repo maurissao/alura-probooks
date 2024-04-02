@@ -6,10 +6,13 @@ import { IsNotEmptyMessage } from "../../entities/decorators/entity.decorators";
 import { ForeignKeyValidator } from "../../infra/database/validation-services/foreign-key.validator";
 
 export class CreateCarrinhoDto {
+    id: string;
+
     @IsNotEmpty(IsNotEmptyMessage)
     @ForeignKeyValidator({referencedEntity: 'usuario', referencedColumn: 'id'})
     usuarioId: string;
 
+    @IsNotEmpty(IsNotEmptyMessage)
     @ValidateNested()
     @IsArray()
     @Type(() => CreateItemCarrinhoDTO)

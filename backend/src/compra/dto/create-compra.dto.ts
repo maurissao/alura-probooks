@@ -5,15 +5,15 @@ import { IsArray, IsNotEmpty, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { ItemCompraDTO } from "./create-item_compra.dto";
 import { IsNotEmptyMessage } from "../../entities/decorators/entity.decorators";
+import { Usuario } from "../../entities/usuario/usuario.entity";
 
 @EntityDTO('compra')
 export class CreateCompraDto {
-    usuarioId: string;
+    usuario: Usuario;
   
-    // @IsNotEmpty(IsNotEmptyMessage)
-    // @ValidateNested()
+    @ValidateNested()
     @Type(() => ItemCompraDTO)   
-    itens: ItemCompra[];
+    itemCompra: ItemCompra[];
   
     @IsNotEmpty(IsNotEmptyMessage)
     formaPagamento: string;

@@ -8,10 +8,9 @@ export class Compra {
   id: string;
 
   @ManyToOne(() => Usuario)
-  @JoinColumn()
   usuario: Usuario;
 
-  @OneToMany(() => ItemCompra, (item) => item.id, {cascade: true, eager: true})
+  @OneToMany(() => ItemCompra, (item) => item.compra, {cascade: true, eager: true})
   itemCompra: ItemCompra[];
 
   @Column({name: 'forma_pagamento'})

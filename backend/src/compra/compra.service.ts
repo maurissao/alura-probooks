@@ -3,28 +3,39 @@ import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
 import { Compra } from '../entities/compra/compra.entity';
 import { Repository } from 'typeorm';
-import { Request } from 'express';
-import { REQUEST } from '@nestjs/core';
+import { CreateCarrinhoDto } from '../carrinho/dto/create-carrinho.dto';
+import { Livro } from '../entities/livro/livro.entity';
+import { ItemCompra } from '../entities/compra/item-compra.entity';
+import { Usuario } from '../entities/usuario/usuario.entity';
 
 @Injectable()
 export class CompraService {
 
   constructor(
-    @Inject(REQUEST) private request: Request,
-    @Inject('CompraRepository') private compraRepository: Repository<Compra>
+    @Inject('CompraRepository') private compraRepository: Repository<Compra>,
+    @Inject('CompraRepository') private livroRepository: Repository<Livro>,
   ){}
 
-  async create(createCompraDto: CreateCompraDto) {
-    const carrinho = this.request.session['carrinho'];
-    if(carrinho) {
-      return this.compraRepository.insert(createCompraDto);
+  async create(createCompraDto: CreateCompraDto, createCarrinhoDto: CreateCarrinhoDto) {
+    if(createCarrinhoDto) {
+      createCompraDto.total = createCarrinhoDto.total;
+      createCompraDto.usuario = {id: createCarrinhoDto.usuarioId } as Usuario;
+      createCompraDto.itemCompra = [];
+      createCarrinhoDto.itemCarrinho.forEach(async item => {
+        createCompraDto.itemCompra.push({
+          livro: {id: item.livroId} as Livro,
+          preco: item.preco,
+          quantidade: item.quantidade
+        } as ItemCompra);
+      });
+      return this.compraRepository.save(createCompraDto);
     } else {
       throw new Error('Carrinho vazio');
     }
   }
 
-  findAll() {
-    return this.compraRepository.find();
+  async findAll() {
+    return await this.compraRepository.find();
   }
 
   findOne(id: number) {
