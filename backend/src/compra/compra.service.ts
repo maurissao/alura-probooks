@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { CreateCarrinhoDto } from '../carrinho/dto/create-carrinho.dto';
 import { Livro } from '../entities/livro/livro.entity';
 import { ItemCompra } from '../entities/compra/item-compra.entity';
-import { Usuario } from '../entities/usuario/usuario.entity';
 
 @Injectable()
 export class CompraService {
@@ -19,7 +18,7 @@ export class CompraService {
   async create(createCompraDto: CreateCompraDto, createCarrinhoDto: CreateCarrinhoDto) {
     if(createCarrinhoDto) {
       createCompraDto.total = createCarrinhoDto.total;
-      createCompraDto.usuarioId = createCarrinhoDto.usuarioId;
+      createCompraDto.usuarioId = createCompraDto.usuarioId || createCarrinhoDto.usuarioId;
       createCompraDto.itemCompra = [];
       createCarrinhoDto.itemCarrinho.forEach(async item => {
         createCompraDto.itemCompra.push({
