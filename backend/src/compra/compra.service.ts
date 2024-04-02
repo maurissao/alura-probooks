@@ -23,7 +23,7 @@ export class CompraService {
       createCompraDto.itemCompra = [];
       createCarrinhoDto.itemCarrinho.forEach(async item => {
         createCompraDto.itemCompra.push({
-          livro: {id: item.livroId} as Livro,
+          livroId: item.livroId,
           preco: item.preco,
           quantidade: item.quantidade
         } as ItemCompra);

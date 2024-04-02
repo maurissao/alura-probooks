@@ -10,7 +10,11 @@ export class ItemCompra {
     @ManyToOne(() => Compra, (compra) => compra.itemCompra)
     compra: Compra;
 
+    @Column()
+    livroId: string;
+
     @ManyToOne(() => Livro)
+    @JoinColumn({name: 'livroId'})
     livro: Livro;
 
     @Column()
