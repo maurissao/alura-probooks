@@ -7,7 +7,11 @@ export class Compra {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  usuarioId: string;
+
   @ManyToOne(() => Usuario)
+  @JoinColumn({name: 'usuarioId'})
   usuario: Usuario;
 
   @OneToMany(() => ItemCompra, (item) => item.compra, {cascade: true, eager: true})

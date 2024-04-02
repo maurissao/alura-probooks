@@ -9,7 +9,7 @@ import { Usuario } from "../../entities/usuario/usuario.entity";
 
 @EntityDTO('compra')
 export class CreateCompraDto {
-    usuario: Usuario;
+    usuarioId: string;
   
     @ValidateNested()
     @Type(() => ItemCompraDTO)   

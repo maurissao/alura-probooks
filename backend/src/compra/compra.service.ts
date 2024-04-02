@@ -19,7 +19,7 @@ export class CompraService {
   async create(createCompraDto: CreateCompraDto, createCarrinhoDto: CreateCarrinhoDto) {
     if(createCarrinhoDto) {
       createCompraDto.total = createCarrinhoDto.total;
-      createCompraDto.usuario = {id: createCarrinhoDto.usuarioId } as Usuario;
+      createCompraDto.usuarioId = createCarrinhoDto.usuarioId;
       createCompraDto.itemCompra = [];
       createCarrinhoDto.itemCarrinho.forEach(async item => {
         createCompraDto.itemCompra.push({
