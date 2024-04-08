@@ -10,7 +10,6 @@ export class CustomNamingStrategy extends DefaultNamingStrategy implements Namin
   }
 
   relationName(propertyName: string): string {
-    console.log(propertyName);
     return propertyName;
   }
 }

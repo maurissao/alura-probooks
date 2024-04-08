@@ -1,11 +1,10 @@
 import "reflect-metadata";
 import { ItemCompra } from "../../entities/compra/item-compra.entity";
-import { EntityDTO, ForeignKeyValidator } from "../../infra/database/validation-services/foreign-key.validator";
+import { EntityDTO, ForeignKeyValidator } from "../../infra/database/validation-services/datasource.validator";
 import { IsArray, IsNotEmpty, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { ItemCompraDTO } from "./create-item_compra.dto";
 import { IsNotEmptyMessage } from "../../entities/decorators/entity.decorators";
-import { Usuario } from "../../entities/usuario/usuario.entity";
 
 @EntityDTO('compra')
 export class CreateCompraDto {

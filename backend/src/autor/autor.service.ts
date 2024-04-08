@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 export class AutorService {
   constructor(@Inject('AutorRepository') private autorRepository: Repository<Autor>) {}
 
-  create(createAutorDto: CreateAutorDto) {
-    return this.autorRepository.insert(createAutorDto);
+  async create(createAutorDto: CreateAutorDto) {
+    return this.autorRepository.save(createAutorDto);
   }
 
   findAll() {

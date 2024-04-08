@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { IsNotEmpty } from "class-validator";
 import { IsNotEmptyMessage } from "../../entities/decorators/entity.decorators";
-import { ForeignKeyValidator } from "../../infra/database/validation-services/foreign-key.validator";
+import { ForeignKeyValidator } from "../../infra/database/validation-services/datasource.validator";
 
 export class CreateItemCarrinhoDTO {
     @IsNotEmpty(IsNotEmptyMessage)

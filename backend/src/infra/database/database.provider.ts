@@ -2,12 +2,13 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 import { ConfigService } from '@nestjs/config';
 import { Injector } from '@nestjs/core/injector/injector';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { CustomNamingStrategy } from './CustomNamingStrategy';
 
 const customNamingStrategy = new CustomNamingStrategy();
 
-const PgOptions: DataSourceOptions = {
+export const PgOptions: DataSourceOptions = {
+    name: 'AppDataSource',
     type: 'postgres',
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
@@ -24,9 +25,15 @@ const PgOptions: DataSourceOptions = {
 
 export const AppDataSource = new DataSource(PgOptions);
 
-export const databaseProviders = [
+export class AppDataSourceLoja extends DataSource {
+  constructor() {
+    super(PgOptions);
+  }
+}
+
+export const databaseProvider = [
   {
-    provide: 'AppDataSource',    
-    useFactory: async () => AppDataSource.initialize(),
-  },
-];
+    provide: 'AppDataSource',
+    useFactory: async () => AppDataSource.initialize()
+  }
+]

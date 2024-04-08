@@ -3,7 +3,7 @@ import { CreateItemCarrinhoDTO } from "./create-item_carrinho.dto";
 import { IsArray, IsNotEmpty, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { IsNotEmptyMessage } from "../../entities/decorators/entity.decorators";
-import { ForeignKeyValidator } from "../../infra/database/validation-services/foreign-key.validator";
+import { ForeignKeyValidator } from "../../infra/database/validation-services/datasource.validator";
 
 export class CreateCarrinhoDto {
     id: string;

@@ -4,11 +4,14 @@ import { ValidationPipe } from '@nestjs/common';
 import * as session from 'express-session';
 const RedisStore = require("connect-redis").default
 import IORedis from 'ioredis';
+import { useContainer } from 'class-validator';
 
 const redisClient = new IORedis();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error']
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.use(
     session({
@@ -23,6 +26,7 @@ async function bootstrap() {
       },
     }),
   );  
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   await app.listen(3000);
 }
 bootstrap();

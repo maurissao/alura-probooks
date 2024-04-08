@@ -1,4 +1,8 @@
+import { DataSource } from "typeorm";
+
 type EntityEvent = ((entity: IEntity) => void);
+
+export class CustomEntity {}
 
 export interface IEntity {
     [key: string]: any;

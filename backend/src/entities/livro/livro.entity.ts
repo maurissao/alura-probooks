@@ -29,11 +29,17 @@ export class Livro {
     @Column({name: 'data_publicacao', type: 'timestamp'})
     dataPublicacao: string;
 
+    @Column()
+    categoriaId: string;
+
     @ManyToOne(() => Categoria)
-    @JoinColumn()
-    categoria: string;
+    @JoinColumn({name: 'categoriaId'})
+    categoria: Categoria;
+
+    @Column()
+    autorId: string;
 
     @ManyToOne(() => Autor)
-    @JoinColumn()
-    autor: string;
+    @JoinColumn({name: 'autorId'})
+    autor: Autor;
 }

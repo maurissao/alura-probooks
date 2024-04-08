@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { EntityDTO, UniqueKeyValidator } from "../../infra/database/validation-services/foreign-key.validator";
+import { EntityDTO, UniqueKeyValidator } from "../../infra/database/validation-services/datasource.validator";
 import { Endereco } from "../../entities/usuario/endereco.entity";
 import { IsArray, IsEmail, IsNotEmpty, Validate, ValidateNested } from "class-validator";
 import { IsNotEmptyMessage, IsValidMessage, ValidateCPF } from "../../entities/decorators/entity.decorators";

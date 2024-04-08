@@ -1,6 +1,4 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import * as EntityDecorators from '../decorators/entity.decorators';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 @Entity('autor')
 export class Autor {

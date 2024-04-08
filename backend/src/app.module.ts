@@ -6,12 +6,14 @@ import { LivroModule } from './livro/livro.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { CarrinhoModule } from './carrinho/carrinho.module';
 import { CompraModule } from './compra/compra.module';
+import { DatabaseModule } from './infra/database/database.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    DatabaseModule,
     AutorModule,
     CategoriaModule,
     LivroModule,

@@ -1,8 +1,9 @@
 import "reflect-metadata";
-import { IsNotEmpty, IsString, Length, MinLength, Validate, ValidationArguments } from 'class-validator';
-import { EntityDTO, ForeignKeyValidator, UniqueKeyValidator } from '../../infra/database/validation-services/foreign-key.validator';
-import { Livro } from '../../entities/livro/livro.entity';
+import { IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import { EntityDTO, ForeignKeyValidator, UniqueKeyValidator } from '../../infra/database/validation-services/datasource.validator';
 import { LengthMessage, MinLengthMessage } from "../../entities/decorators/entity.decorators";
+import { Categoria } from "../../entities/categoria/categoria.entity";
+import { Autor } from "../../entities/autor/autor.entity";
 
 @EntityDTO('livro')
 export class CreateLivroDto {
@@ -29,8 +30,8 @@ export class CreateLivroDto {
     dataPublicacao: string;
 
     @ForeignKeyValidator({referencedEntity: 'Categoria', referencedColumn: 'id'})
-    categoria: string;
+    categoria: Categoria;
 
     @ForeignKeyValidator({referencedEntity: 'Autor', referencedColumn: 'id'})
-    autor: string;
+    autor: Autor;
 }

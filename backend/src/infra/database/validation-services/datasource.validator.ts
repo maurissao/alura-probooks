@@ -1,10 +1,10 @@
 import "reflect-metadata";
-import { Inject, Injectable } from '@nestjs/common';
 import { registerDecorator, ValidationOptions, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { DataSource, Repository } from 'typeorm';
-import { AppDataSource } from '../database.provider';
-import { getMetadataArgsStorage } from 'typeorm';
+import { DataSource, getMetadataArgsStorage, Repository } from 'typeorm';
 import { MetadataArgsStorage } from "typeorm/metadata-args/MetadataArgsStorage";
+import { Inject, Injectable } from "@nestjs/common";
+import { CustomEntity } from "../../../entities/types";
+import { Autor } from "src/entities/autor/autor.entity";
 
 type ReferenceOptions = {
     referencedEntity: any,
@@ -25,11 +25,7 @@ export const EntityDTO = function (entity: any) {
 
 @ValidatorConstraint()
 export class ForeignKeyValidatorConstraint implements ValidatorConstraintInterface {
-    private dataSource: DataSource;
-
-    constructor() {
-        this.dataSource = AppDataSource;
-    }
+    constructor(@Inject('AppDataSource') private datasource: DataSource) {}
 
     validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
@@ -43,7 +39,7 @@ export class ForeignKeyValidatorConstraint implements ValidatorConstraintInterfa
                 // const joinMetadata = metadataArgsStorage.joinColumns.find(j => j.target === entity);
                 const refOptions: ReferenceOptions = validationArguments.constraints[0] || undefined;
                 const sql = `select * from ${refOptions.referencedEntity} where "${refOptions.referencedColumn}" = '${value}'`;
-                const data = await this.dataSource.query(sql);
+                const data = await this.datasource.query(sql);
                 const result = data.length > 0; 
                 resolve(result);
             } catch (e) {
@@ -57,23 +53,18 @@ export class ForeignKeyValidatorConstraint implements ValidatorConstraintInterfa
     }
 }
 
-@ValidatorConstraint()
+@ValidatorConstraint({async: true})
 export class UniqueKeyValidatorConstraint implements ValidatorConstraintInterface {
-    private dataSource: DataSource;
-    private entity;
-    private metadataArgsStorage;
-    private entityName;
+    constructor(@Inject('AppDataSource') private datasource: DataSource) {}
 
-    constructor() {
-        this.dataSource = AppDataSource;
-    }
-
+    private entity: string;
+    
     validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
         this.entity = Reflect.getMetadata('entityDTO', validationArguments.object.constructor);
         return new Promise<boolean>(async (resolve, reject) => {
             try {
                 const sql = `select * from ${this.entity} where "${validationArguments.property}" = '${value}'`;
-                const data = await this.dataSource.query(sql);
+                const data = await this.datasource.query(sql);
                 const result = data.length <= 0; 
                 resolve(result);
             } catch (e) {
@@ -83,7 +74,7 @@ export class UniqueKeyValidatorConstraint implements ValidatorConstraintInterfac
     }
 
     defaultMessage?(validationArguments?: ValidationArguments): string {
-        return `${this.entityName}.${validationArguments.property} ${validationArguments.value} já existe`
+        return `${this.entity}.${validationArguments.property} ${validationArguments.value} já existe`
     }    
 }
 

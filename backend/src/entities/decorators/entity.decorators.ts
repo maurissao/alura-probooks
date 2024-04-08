@@ -90,7 +90,6 @@ export class ValidateCPF implements ValidatorConstraintInterface {
 export class ValidateTelefone implements ValidatorConstraintInterface {
   validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
     if (value) {
-      console.log(validationArguments.object);
       let phone: string = value as string;
       phone = phone.replace(/\D/g, "");
       const patternFixo = /^\d{2}9?\d{8}$/;

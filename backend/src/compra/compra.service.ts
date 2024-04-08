@@ -4,16 +4,13 @@ import { UpdateCompraDto } from './dto/update-compra.dto';
 import { Compra } from '../entities/compra/compra.entity';
 import { Repository } from 'typeorm';
 import { CreateCarrinhoDto } from '../carrinho/dto/create-carrinho.dto';
-import { Livro } from '../entities/livro/livro.entity';
 import { ItemCompra } from '../entities/compra/item-compra.entity';
 
 @Injectable()
 export class CompraService {
 
   constructor(
-    @Inject('CompraRepository') private compraRepository: Repository<Compra>,
-    @Inject('CompraRepository') private livroRepository: Repository<Livro>,
-  ){}
+    @Inject('CompraRepository') private compraRepository: Repository<Compra>){}
 
   async create(createCompraDto: CreateCompraDto, createCarrinhoDto: CreateCarrinhoDto) {
     if(createCarrinhoDto) {
