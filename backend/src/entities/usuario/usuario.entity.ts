@@ -23,6 +23,9 @@ export class Usuario {
   @OneToMany(() => Endereco, (endereco) => endereco.usuario, {cascade: true, eager: true})
   endereco: Endereco[];
 
+  @Column()
+  senha: string;
+
   @CreateDateColumn({name: 'data_cadastro'})
   dataCadastro: string;
 }

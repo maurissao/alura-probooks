@@ -7,6 +7,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { CarrinhoModule } from './carrinho/carrinho.module';
 import { CompraModule } from './compra/compra.module';
 import { DatabaseModule } from './infra/database/database.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DatabaseModule } from './infra/database/database.module';
     UsuarioModule,
     CarrinhoModule,
     CompraModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

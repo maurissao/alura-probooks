@@ -1,13 +1,21 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from '../entities/usuario/usuario.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuarioService {
+  private readonly logger = new Logger(UsuarioService.name);
+
   constructor (@Inject('UsuarioRepository') private usuarioRepository: Repository<Usuario>){}
-  create(createUsuarioDto: CreateUsuarioDto) {
+
+  async create(createUsuarioDto: CreateUsuarioDto) {
+    this.logger.log(`criando usuário ${createUsuarioDto.nome}`)
+    const salt = process.env.salt_probooks;
+    const hash = await bcrypt.hash(createUsuarioDto.senha, salt);
+    createUsuarioDto.senha = hash;
     return this.usuarioRepository.save(createUsuarioDto);
   }
 
@@ -15,8 +23,10 @@ export class UsuarioService {
     return this.usuarioRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  findOne(id: string) {
+    return this.usuarioRepository.findOne({
+      where: {id}
+    });
   }
 
   update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
