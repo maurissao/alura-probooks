@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 type Livro = {
+    id: string;
     nome: string;
     resumo: string;
     sumario: string;
@@ -20,14 +21,15 @@ function ListaLivros() {
     useEffect(() => {
         axios.get<Livro[]>('http://localhost:3000/livro')
         .then((response) => {
-            console.log(response.data);
             setLivros(response.data);
         });
     }, []) 
 
     return (
         <h1>
-            {livros?.map(item => item.nome)}
+            {livros?.map(
+                item => {return <Link key={item.id} to={"/livro/" + item.id}>{item.nome}</Link>}
+            )}
         </h1>
     )
 }
