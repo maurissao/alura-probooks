@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import estilos from './NavBar.module.scss';
 import { Link } from 'react-router-dom'
+import { CartCount } from '../CartCount'
 
 const NavBar = () => {
     return (
@@ -19,7 +20,7 @@ const NavBar = () => {
                         <Link to="#carrinho" className={estilos.carrinho_home}>
                             <i className="fa-solid fa-cart-shopping fa-lg"></i>
                             <div className={estilos.cart_count_circle}>
-                                <span className={estilos.cart_count}>0</span>
+                                <span className={estilos.cart_count}><CartCount /></span>
                             </div>
                         </Link>
                     </ul>
