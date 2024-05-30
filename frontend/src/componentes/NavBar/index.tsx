@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import estilos from './NavBar.module.scss';
 import { Link } from 'react-router-dom'
-import { CartCount } from '../CartCount'
+import { useCartCount } from '../../hooks/CartCountHook';
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
+    const { cartCount } = useCartCount();
     return (
         <header className={estilos.menu_bg}>
             <div className={estilos.menu}>
@@ -20,7 +21,7 @@ const NavBar = () => {
                         <Link to="#carrinho" className={estilos.carrinho_home}>
                             <i className="fa-solid fa-cart-shopping fa-lg"></i>
                             <div className={estilos.cart_count_circle}>
-                                <span className={estilos.cart_count}><CartCount /></span>
+                                <span className={estilos.cart_count}>{cartCount}</span>
                             </div>
                         </Link>
                     </ul>
