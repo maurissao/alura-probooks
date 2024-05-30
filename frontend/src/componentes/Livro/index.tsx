@@ -3,12 +3,17 @@ import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
 import { TLivro, TCart } from '../../types';
 import { useCartCount } from '../../hooks/CartCountHook';
 import axios from 'axios';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { cartState } from '../../state/cartState';
 
 function Livro() {
     const [livro, setLivro] = useState<TLivro>();
-    const [cart, setCart] = useState<TCart>();
+    const [cartCount, setCartCount] = useRecoilState(cartState);
+
     const { id } = useParams();
-    const { incrementCart } = useCartCount();
+    const incrementCart = () => {
+        setCartCount(cartCount + 1);
+    }
 
     useEffect(() => {
         axios.get<TLivro>(`http://localhost:3000/livro/${id}`)

@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import estilos from './NavBar.module.scss';
 import { Link } from 'react-router-dom'
 import { useCartCount } from '../../hooks/CartCountHook';
+import { useRecoilValue } from 'recoil';
+import { cartState } from '../../state/cartState';
 
 const NavBar: React.FC = () => {
-    const { cartCount } = useCartCount();
+    const cartCount = useRecoilValue(cartState);
+
     return (
         <header className={estilos.menu_bg}>
             <div className={estilos.menu}>
